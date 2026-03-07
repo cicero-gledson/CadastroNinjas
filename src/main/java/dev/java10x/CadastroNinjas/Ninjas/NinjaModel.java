@@ -1,5 +1,6 @@
-package dev.java10x.CadastroNinjas;
+package dev.java10x.CadastroNinjas.Ninjas;
 
+import dev.java10x.CadastroNinjas.Missoes.MissoesModel;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,10 @@ public class NinjaModel {
     private String email;
     private int idade;
 
+    @ManyToOne
+    @JoinColumn(name = "missoes_id") // Foreing Key
+    private MissoesModel missoes;
+
     public NinjaModel() {
 
     }
@@ -20,6 +25,11 @@ public class NinjaModel {
         this.nome = nome;
         this.email = email;
         this.idade = idade;
+    }
+
+    public NinjaModel(String nome, String email, int idade, MissoesModel missoes) {
+        this(nome, email, idade);
+        this.missoes = missoes;
     }
 
     public String getNome() {
