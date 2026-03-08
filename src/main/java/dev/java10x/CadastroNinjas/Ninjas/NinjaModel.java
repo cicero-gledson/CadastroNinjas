@@ -14,6 +14,9 @@ public class NinjaModel {
     private String email;
     private int idade;
 
+    @Column (name = "img_url")
+    private String imgUrl;
+
     @ManyToOne
     @JoinColumn(name = "missoes_id") // Foreing Key
     private MissoesModel missoes;
