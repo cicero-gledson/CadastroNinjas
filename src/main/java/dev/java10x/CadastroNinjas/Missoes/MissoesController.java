@@ -8,7 +8,7 @@ public class MissoesController {
 
     @GetMapping("/listar")
     public String listarMissoes(){
-        return "Lista de missões"
+        return "Lista de missões";
     }
 
     @PostMapping("/criar")
