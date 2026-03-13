@@ -26,15 +26,17 @@ public class NinjaController {
     }
 
     // Mostrar todos os ninjas (READ)
-    @GetMapping ("/todos")
+    @GetMapping ("/listar")
     public List<NinjaModel> mostrarTodosOsNinjas(){
         return ninjaService.mostrarTodos();
     }
 
     // Mostrar ninja por ID (READ)
-    @GetMapping ("/todosID")
-    public String mostrarTodosOsNinjasPorId(){
-        return "Mostrar todos os ninjas por ID";
+    @GetMapping ("/listar/{id}")
+    public NinjaModel listarNinjaspPorId(@PathVariable Long id)
+    {
+        return ninjaService.listarNinjasPorId(id);
+
     }
 
     // Alterar dados dos ninjas (UPDATE)
