@@ -1,5 +1,6 @@
 package dev.java10x.CadastroNinjas.Ninjas;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,10 +9,22 @@ import java.util.Optional;
 @Service
 public class NinjaService {
     private NinjasRepository ninjasRepository;
+    private NinjaMapper ninjaMapper;
 
     public NinjaService(NinjasRepository ninjasRepository) {
         this.ninjasRepository = ninjasRepository;
     }
+    @Autowired
+    public NinjaService(NinjasRepository ninjasRepository, NinjaMapper ninjaMapper) {
+        this(ninjasRepository);
+        this.ninjaMapper = ninjaMapper;
+    }
+
+//  public NinjaService(NinjasRepository ninjasRepository, NinjaMapper ninjaMapper) {
+//      this.ninjasRepository = ninjasRepository;
+//      this.ninjaMapper = ninjaMapper;
+//  }
+
 
     public List<NinjaModel> mostrarTodos(){
         return ninjasRepository.findAll();
@@ -21,8 +34,9 @@ public class NinjaService {
         return ninjasRepository.findById(id).orElse(null);
     }
 
-    public NinjaModel criarNinja(NinjaModel ninja){
-        return ninjasRepository.save(ninja);
+    public NinjaDTO criarNinja(NinjaDTO ninja){
+        NinjaModel ninjaModel = ninjasRepository.save(ninjaMapper.map(ninja));
+        return ninjaMapper.map(ninjaModel);
     }
 
     public void deletarNinja(Long id){
