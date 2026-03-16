@@ -26,12 +26,16 @@ public class NinjaService {
 //  }
 
 
-    public List<NinjaModel> mostrarTodos(){
-        return ninjasRepository.findAll();
+    public List<NinjaDTO> mostrarTodos(){
+        return ninjasRepository.findAll()
+                .stream()
+                .map(ninjaMapper::map)
+                .toList();
     }
 
-    public NinjaModel listarNinjasPorId(Long id){
-        return ninjasRepository.findById(id).orElse(null);
+    public NinjaDTO listarNinjasPorId(Long id){
+        Optional<NinjaModel> ninja = ninjasRepository.findById(id);
+        return ninja.map(ninjaMapper::map).orElse(null);
     }
 
     public NinjaDTO criarNinja(NinjaDTO ninja){
@@ -44,10 +48,12 @@ public class NinjaService {
 
     }
 
-    public NinjaModel alterarNinja(Long id, NinjaModel ninjaAtualizado){
-        if (ninjasRepository.existsById(id)){
+    public NinjaDTO alterarNinja(Long id, NinjaDTO ninjaAtualizado){
+        Optional<NinjaModel> ninjaModel = ninjasRepository.findById(id);
+        if (ninjaModel.isPresent()) {
             ninjaAtualizado.setId(id);
-            return ninjasRepository.save(ninjaAtualizado);
+            ninjasRepository.save(ninjaMapper.map(ninjaAtualizado));
+            return ninjaAtualizado;
         }
         return null;
     }
